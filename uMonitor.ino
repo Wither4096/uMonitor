@@ -1,9 +1,9 @@
 #include <DHT.h>
 //#define RZERO -10
 
-const int analogMQPin=25;
-const int digitalMQPin=33;
-const int dhtPin=32;
+const int analogMQPin=34;
+//const int digitalMQPin=33;
+const int dhtPin=33;
 const int buzzer=15;
 
 DHT dhtSens(dhtPin,DHT11);
@@ -11,7 +11,6 @@ DHT dhtSens(dhtPin,DHT11);
 float hum=0;
 float tempu=0;
 float analogMQVal=0;
-float digitalMQVal=0;
 float mappedMQVal=0;
 
 void setup() {
@@ -24,7 +23,6 @@ void loop() {
   hum=dhtSens.readHumidity();
   tempu=dhtSens.readTemperature();
   analogMQVal=analogRead(analogMQPin);
-  digitalMQVal=digitalRead(digitalMQPin);
   mappedMQVal=map(analogMQVal,0,4095,0,1023);
   alertAir(mappedMQVal);
   serialLogDataPoints();
@@ -32,19 +30,20 @@ void loop() {
 
 void serialLogDataPoints(){
   Serial.println("---START LOG---");
-  Serial.println("HUM/TEMP: ");
   Serial.print("Humidity: ");Serial.println(hum);
-  delay(500);
   Serial.print("Temperature: ");Serial.println(tempu);
-  delay(500);
-  Serial.print("PPM: ");Serial.println(mappedMQVal);
-  delay(1000);
+  Serial.print("Raw MQ135: ");Serial.println(analogMQVal);
+  Serial.print("Mapped MQ135: ");Serial.println(mappedMQVal);
   Serial.println("---END LOG---");
+  Serial.println();
+  delay(500);
 };
 
 void alertAir(int ppm){
-  if(ppm>=800)
+  if(ppm>=675)
     tone(buzzer,880,500);
-  else if(ppm>=700)
+  else if(ppm>=600)
     tone(buzzer,440,250);
+  noTone(buzzer);
+  delay(1000);
 }
