@@ -45,25 +45,70 @@ const unsigned char BOOTBMP [] PROGMEM = {
 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 
-const int analogMQPin=34;
+const int mqPin=34;
 const int dhtPin=33;
 const int lm35Pin=13;
 const int lightResPin=14;
 const int ledPin=12;
 const int buzzer=15;
 
-DHT dhtSens(dhtPin,DHT11);
+class SensorReadings{
+  private:
+  float hum_;
+  float tempuDHT_;
+  float tempuLM35_;
+  float mqVal_;
+  float lightVal_;
+  public:
+  //Setters
+  void setHum(float hum){
+    hum_=hum;
+  }
+  void setTempDHT(float tempuDHT){
+    tempuDHT_=tempuDHT;
+  }
+  void setTempLM35(float tempuLM35){
+    tempuLM35_=tempuLM35;
+  }
+  void setMQVal(float mqVal){
+    mqVal_=mqVal;
+  }
+  void setLightVal(float lightVal){
+    lightVal_=lightVal;
+  }
+  //Getters
+  float getHum(){
+    return hum_;
+  }
+  float getTempDHT(){
+    return tempuDHT_;
+  }
+  float getTempLM35(){
+    return tempuLM35_;
+  }
+  float getTempAvg(){
+    return (tempuDHT_+tempuLM35_)/2;
+  }
+  float getGas(){
+    return mqVal_;
+  }
+  float getLight(){
+    return lightVal_;
+  }
+  SensorReadings(){
+  hum_=0;
+  tempuDHT_=0;
+  tempuLM35_=0;
+  mqVal_=0;
+  lightVal_=0;
+  }
+};
 
-float hum=0;
-float tempuDHT=0;
-float tempuLM35=0;
-float mappedLM35Val=0;
-float analogMQVal=0;
-float mappedMQVal=0;
-float lightRead=0;
+DHT dhtSens(dhtPin,DHT11);
+SensorReadings vars;
 
 void setup() {
-  pinMode(analogMQPin,INPUT);
+  pinMode(mqPin,INPUT);
   pinMode(dhtPin,INPUT);
   pinMode(lightResPin,INPUT);
   pinMode(lm35Pin,INPUT);
@@ -82,27 +127,27 @@ void setup() {
 }
 
 void loop() {
-  hum=dhtSens.readHumidity();
-  tempuDHT=dhtSens.readTemperature();
-  tempuLM35=((analogRead(lm35Pin))/4095.0)*100.0;
-  analogMQVal=analogRead(analogMQPin);
-  mappedMQVal=map(analogMQVal,0,4095,0,1023);
-  lightRead=analogRead(lightResPin);
 
-  alertAir(mappedMQVal);
+  vars.setHum(dhtSens.readHumidity());
+  vars.setTempDHT(dhtSens.readTemperature());
+  vars.setTempLM35(analogRead(lm35Pin)/40.95);
+  vars.setMQVal(analogRead(mqPin));
+  vars.setLightVal(analogRead(lightResPin));
+
+  alertAir(map(vars.getGas(),0,4095,0,1023));
   renderDisplay();
   serialLogDataPoints();
 }
 
 void serialLogDataPoints(){
   Serial.println("---START LOG---");
-  Serial.print("Humidity: ");Serial.print(hum);Serial.println("%");
-  Serial.print("Temperature (DHT11): ");Serial.print(tempuDHT);Serial.println("\xC2\xB0");
-  Serial.print("Temperature (LM35): ");Serial.print(tempuLM35);Serial.println("\xC2\xB0");
-  Serial.print("Temperature (Average): ");Serial.print((tempuDHT+tempuLM35)/2);Serial.println("\xC2\xB0");
-  Serial.print("Light Intensity : ");Serial.println(lightRead);
-  Serial.print("Raw MQ135: ");Serial.println(analogMQVal);
-  Serial.print("Mapped MQ135: ");Serial.println(mappedMQVal);
+  Serial.print("Humidity: ");Serial.print(vars.getHum());Serial.println("%");
+  Serial.print("Temperature (DHT11): ");Serial.print(vars.getTempDHT());Serial.println("\xC2\xB0");
+  Serial.print("Temperature (LM35): ");Serial.print(vars.getTempLM35());Serial.println("\xC2\xB0");
+  Serial.print("Temperature (Average): ");Serial.print(vars.getTempAvg());Serial.println("\xC2\xB0");
+  Serial.print("Light Intensity : ");Serial.println(vars.getLight());
+  Serial.print("Raw MQ135: ");Serial.println(vars.getGas());
+  Serial.print("Mapped MQ135: ");Serial.println(map(vars.getGas(),0,4095,0,1023));
   Serial.println("---END LOG---");
   Serial.println();
   delay(500);
@@ -127,9 +172,9 @@ void renderDisplay(){
   oled.setCursor(0, 0);
   oled.clearDisplay();
   //oled.println("   Live Readings");
-  oled.print("    LIT: ");oled.println(lightRead/40.95);
-  oled.print("    HUM: ");oled.println(hum);
-  oled.print("    TEMP: ");oled.println((tempuDHT+tempuLM35)/2);
-  oled.print("    AIR: ");oled.println(mappedMQVal);
+  oled.print("    LIT: ");oled.println(vars.getLight()/40.95);
+  oled.print("    HUM: ");oled.println(vars.getHum());
+  oled.print("    TEMP: ");oled.println(vars.getTempAvg());
+  oled.print("    AIR: ");oled.println(map(vars.getGas(),0,4095,0,1023));
   oled.display();
 }
