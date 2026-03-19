@@ -48,6 +48,7 @@ const unsigned char BOOTBMP [] PROGMEM = {
 const int analogMQPin=34;
 const int dhtPin=33;
 const int lm35pin=13;
+const int ledPin=12;
 const int buzzer=15;
 
 DHT dhtSens(dhtPin,DHT11);
@@ -63,6 +64,7 @@ void setup() {
   pinMode(analogMQPin,INPUT);
   pinMode(dhtPin,INPUT);
   pinMode(lm35pin,INPUT);
+  pinMode(ledPin,OUTPUT);
   pinMode(buzzer,OUTPUT);
   Serial.begin(9600);
   oled.begin(SSD1306_SWITCHCAPVCC,0x3C);
@@ -102,12 +104,18 @@ void serialLogDataPoints(){
 };
 
 void alertAir(int ppm){
-  if(ppm>=675)
-    tone(buzzer,880,500);
-  else if(ppm>=600)
-    tone(buzzer,440,250);
-  noTone(buzzer);
+  if(ppm>=600){
+    tone(buzzer,880);
+    digitalWrite(ledPin,HIGH);
+    delay(500);
+  }
+  else if(ppm>=500){
+  tone(buzzer,440);
+  digitalWrite(ledPin,HIGH);
   delay(1000);
+  }
+  noTone(buzzer);
+  digitalWrite(ledPin,LOW);
 }
 
 void renderDisplay(){
@@ -115,7 +123,7 @@ void renderDisplay(){
   oled.clearDisplay();
   oled.println("   Live Readings");
   oled.print("    HUM: ");oled.println(hum);
-  oled.print("    TEMP: ");oled.println(tempuDHT+tempuLM35/2);
+  oled.print("    TEMP: ");oled.println((tempuDHT+tempuLM35)/2);
   oled.print("    AQR: ");oled.println(mappedMQVal);
   oled.display();
 }
