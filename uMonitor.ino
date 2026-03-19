@@ -47,7 +47,8 @@ const unsigned char BOOTBMP [] PROGMEM = {
 
 const int analogMQPin=34;
 const int dhtPin=33;
-const int lm35pin=13;
+const int lm35Pin=13;
+const int lightResPin=14;
 const int ledPin=12;
 const int buzzer=15;
 
@@ -59,11 +60,13 @@ float tempuLM35=0;
 float mappedLM35Val=0;
 float analogMQVal=0;
 float mappedMQVal=0;
+float lightRead=0;
 
 void setup() {
   pinMode(analogMQPin,INPUT);
   pinMode(dhtPin,INPUT);
-  pinMode(lm35pin,INPUT);
+  pinMode(lightResPin,INPUT);
+  pinMode(lm35Pin,INPUT);
   pinMode(ledPin,OUTPUT);
   pinMode(buzzer,OUTPUT);
   Serial.begin(9600);
@@ -81,9 +84,10 @@ void setup() {
 void loop() {
   hum=dhtSens.readHumidity();
   tempuDHT=dhtSens.readTemperature();
-  tempuLM35=((analogRead(lm35pin))/4095.0)*100.0;
+  tempuLM35=((analogRead(lm35Pin))/4095.0)*100.0;
   analogMQVal=analogRead(analogMQPin);
   mappedMQVal=map(analogMQVal,0,4095,0,1023);
+  lightRead=analogRead(lightResPin);
 
   alertAir(mappedMQVal);
   renderDisplay();
@@ -96,6 +100,7 @@ void serialLogDataPoints(){
   Serial.print("Temperature (DHT11): ");Serial.print(tempuDHT);Serial.println("\xC2\xB0");
   Serial.print("Temperature (LM35): ");Serial.print(tempuLM35);Serial.println("\xC2\xB0");
   Serial.print("Temperature (Average): ");Serial.print((tempuDHT+tempuLM35)/2);Serial.println("\xC2\xB0");
+  Serial.print("Light Intensity : ");Serial.println(lightRead);
   Serial.print("Raw MQ135: ");Serial.println(analogMQVal);
   Serial.print("Mapped MQ135: ");Serial.println(mappedMQVal);
   Serial.println("---END LOG---");
@@ -121,9 +126,10 @@ void alertAir(int ppm){
 void renderDisplay(){
   oled.setCursor(0, 0);
   oled.clearDisplay();
-  oled.println("   Live Readings");
+  //oled.println("   Live Readings");
+  oled.print("    LIT: ");oled.println(lightRead/40.95);
   oled.print("    HUM: ");oled.println(hum);
   oled.print("    TEMP: ");oled.println((tempuDHT+tempuLM35)/2);
-  oled.print("    AQR: ");oled.println(mappedMQVal);
+  oled.print("    AIR: ");oled.println(mappedMQVal);
   oled.display();
 }
