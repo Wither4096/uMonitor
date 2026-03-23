@@ -133,7 +133,7 @@ void setup() {
 void loop() {
   vars.setHum(dhtSens.readHumidity());
   vars.setTempDHT(dhtSens.readTemperature());
-  vars.setTempLM35(analogRead(lm35Pin)/40.95);
+  vars.setTempLM35((analogRead(lm35Pin)/4095.0)*5.0*10.0);
   vars.setMQVal(analogRead(mqPin));
   vars.setLightVal(analogRead(lightResPin));
 
