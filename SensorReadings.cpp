@@ -6,6 +6,11 @@
 // void SensorReadings::setgas(float gas){ gas_=gas; }
 // void SensorReadings::setLightVal(float lightVal){ lightVal_=lightVal; }
 
+SensorReadings::SensorReadings()
+:
+hum_(0), tempDHT_(0), tempLM35_(0), gas_(0), lightVal_(0)
+{};
+
 void SensorReadings::updateValues(float hum, float tempDHT, float tempLM35, float gas, float lightVal){
   hum_=hum;
   tempDHT_=tempDHT;
@@ -26,8 +31,3 @@ float SensorReadings::getTempAvg()const{ return (tempDHT_+tempLM35_)/2; }
 float SensorReadings::getGas()const{ return gas_; }
 
 float SensorReadings::getLight()const{ return lightVal_; }
-
-SensorReadings::SensorReadings()
-:
-hum_(0), tempDHT_(0), tempLM35_(0), gas_(0), lightVal_(0)
-{}

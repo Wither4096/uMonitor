@@ -1,20 +1,21 @@
-#include <DHT.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
 #include "definitions.h"
+#include "SensorManager.h"
 #include "SensorReadings.h"
 
 #define LOGGING 1
+
+SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
+SensorReadings readings;
 
 #define WIRE Wire
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 32
 Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&WIRE);
 
-DHT dhtSens(DHT_PIN,DHT11);
-SensorReadings readings;
 
 void setup() {
   Serial.begin(9600);
@@ -26,7 +27,6 @@ void setup() {
   pinMode(LED_PIN,OUTPUT);
   pinMode(BUZZER_PIN,OUTPUT);
 
-  dhtSens.begin();
 
   oled.begin(SSD1306_SWITCHCAPVCC,0x3C);
   oled.clearDisplay();
@@ -37,20 +37,24 @@ void setup() {
 
   delay(2500);
   oled.clearDisplay();
+
+  //manager.init();
 }
 
 void loop() {
-  readings.updateValues(
-  float(dhtSens.readHumidity()),
-  float(dhtSens.readTemperature()),
-  float(((analogRead(LM35_PIN)/4095.0)*5.0*10.0)),
-  float(analogRead(MQ_PIN)),
-  float(analogRead(LIGHT_RES_PIN))
-  );
+  //readings.updateValues(
+  //float(dhtSens.readHumidity()),
+  //float(dhtSens.readTemperature()),
+  //float(((analogRead(LM35_PIN)/4095.0)*5.0*10.0)),
+  //float(analogRead(MQ_PIN)),
+  //float(analogRead(LIGHT_RES_PIN))
+  //);
   
-  alertAir(map(readings.getGas(),0,4095,0,1023));
+  manager.updateReadings(readings);
 
-  renderDisplay();
+  alertAir(readings.getGas());
+
+  renderDisplay(readings);
 
   #ifdef LOGGING
   serialLogDataPoints();
@@ -74,16 +78,16 @@ void alertAir(int gas){
   digitalWrite(LED_PIN,LOW);
 }
 
-void renderDisplay(){
+void renderDisplay(SensorReadings& readings){
   oled.setCursor(0, 0);
 
   oled.clearDisplay();
 
   //oled.println("   Live Readings");
-  oled.print("    LIT: ");oled.println(readings.getLight()/40.95);
+  oled.print("    LIT: ");oled.println(readings.getLight());
   oled.print("    HUM: ");oled.println(readings.getHum());
   oled.print("    TEMP: ");oled.println(readings.getTempAvg());
-  oled.print("    AIR: ");oled.println(map(readings.getGas(),0,4095,0,1023));
+  oled.print("    AIR: ");oled.println(readings.getGas());
 
   oled.display();
 }
