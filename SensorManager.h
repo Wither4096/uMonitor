@@ -1,6 +1,9 @@
 #pragma once
 #include <DHT.h>
 #include "SensorReadings.h"
+
+#define ADC_MAX 4095.0
+
 class SensorManager{
   private:
 

@@ -12,20 +12,20 @@ lightPin_(lightPin)
 
 float SensorManager::readLM35_(){
   float raw=analogRead(lm35Pin_);
-  float voltage=(raw/4095.0)*3.3;
+  float voltage=(raw/ADC_MAX)*3.3;
   float weightedValue=voltage*16.0; // Calibration based on testing @ room temperature
   return weightedValue;
 }
 
 float SensorManager::readMQ135_(){
   int raw=analogRead(mqPin_);
-  int mappedValue=raw/40.95;
+  int mappedValue=raw/ADC_MAX*100.0;
   return mappedValue;
 }
 
 float SensorManager::readLight_(){
   int raw=analogRead(lightPin_);
-  float mappedValue=raw/40.95; //maps the light value out of 100.00
+  float mappedValue=raw/ADC_MAX*100.0; //maps the light value out of 100.00
   return mappedValue;
 }
 
