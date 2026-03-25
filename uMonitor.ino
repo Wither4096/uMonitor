@@ -40,13 +40,14 @@ void setup() {
 }
 
 void loop() {
-  //readings.setHum(dhtSens.readHumidity());
-  //readings.setTempDHT(dhtSens.readTemperature());
-  //readings.setTempLM35((analogRead(LM35_PIN)/4095.0)*5.0*10.0);
-  //readings.setgas(analogRead(MQ_PIN));
-  //readings.setLightVal(analogRead(LIGHT_RES_PIN));
-  readings.updateValues( float(dhtSens.readHumidity()) , float(dhtSens.readTemperature()) , float(((analogRead(LM35_PIN)/4095.0)*5.0*10.0)) , float(analogRead(MQ_PIN)) , float(analogRead(LIGHT_RES_PIN)) );
-
+  readings.updateValues(
+  float(dhtSens.readHumidity()),
+  float(dhtSens.readTemperature()),
+  float(((analogRead(LM35_PIN)/4095.0)*5.0*10.0)),
+  float(analogRead(MQ_PIN)),
+  float(analogRead(LIGHT_RES_PIN))
+  );
+  
   alertAir(map(readings.getGas(),0,4095,0,1023));
 
   renderDisplay();
