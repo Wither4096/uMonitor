@@ -31,10 +31,10 @@ float SensorManager::readLight_(){
 
 //void SensorManager::init() { dht_.begin(); };
 void SensorManager::updateReadings(SensorReadings &readings){
-  float hum=dht_.readHumidity();
-  float tempDHT=dht_.readTemperature();
-  float tempLM35=readLM35_();
-  float gas=readMQ135_();
+  float humidity=dht_.readHumidity();
+  float temperatureDHT=dht_.readTemperature();
+  float temperatureLM35=readLM35_();
+  float airQuality=readMQ135_();
   float light=readLight_();
-  readings.updateValues(hum,tempDHT,tempLM35,gas,light);
+  readings.updateValues(humidity,temperatureDHT,temperatureLM35,airQuality,light);
 }

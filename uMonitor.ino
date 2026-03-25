@@ -53,7 +53,7 @@ void loop() {
   
   manager.updateReadings(readings);
 
-  alertAir(readings.getGas());
+  alertAir(readings.getAirQuality());
 
   renderDisplay(readings);
 
@@ -85,10 +85,10 @@ void renderDisplay(SensorReadings& readings){
   oled.clearDisplay();
 
   //oled.println("   Live Readings");
-  oled.print("    LIT: ");oled.println(readings.getLight());
-  oled.print("    HUM: ");oled.println(readings.getHum());
-  oled.print("    TEMP: ");oled.println(readings.getTempAvg());
-  oled.print("    AIR: ");oled.println(readings.getGas());
+  oled.print("    TMP: ");oled.println(readings.getAverageTemperature());
+  oled.print("    HUM: ");oled.println(readings.getHumidity());
+  oled.print("    AQI: ");oled.println(readings.getAirQuality());
+  oled.print("    LUX: ");oled.println(readings.getLight());
 
   oled.display();
 }

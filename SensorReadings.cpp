@@ -5,35 +5,35 @@
 // void SensorReadings::setTempDHT(float tempDHT){ tempDHT_=tempDHT; }
 // void SensorReadings::setTempLM35(float tempLM35){ tempLM35_=tempLM35; }
 // void SensorReadings::setgas(float gas){ gas_=gas; }
-// void SensorReadings::setLightVal(float lightVal){ lightVal_=lightVal; }
+// void SensorReadings::setlight(float light){ light_=light; }
 
 SensorReadings::SensorReadings()
 :
-hum_(0), tempDHT_(0), tempLM35_(0), gas_(0), lightVal_(0)
+humidity_(0), temperatureDHT_(0), temperatureLM35_(0), airQuality_(0), light_(0)
 {};
 
-void SensorReadings::updateValues(float hum, float tempDHT, float tempLM35, float gas, float lightVal){
-  hum_=hum;
-  tempDHT_=tempDHT;
-  tempLM35_=tempLM35;
-  gas_=gas;
-  lightVal_=lightVal;
+void SensorReadings::updateValues(float humidity, float temperatureDHT, float temperatureLM35, float airQuality, float light){
+  humidity_=humidity;
+  temperatureDHT_=temperatureDHT;
+  temperatureLM35_=temperatureLM35;
+  airQuality_=airQuality;
+  light_=light;
 }
 
 //Getters
-float SensorReadings::getHum()const{ return hum_; }
+float SensorReadings::getHumidity()const{ return humidity_; }
 
-float SensorReadings::getTempDHT()const{ return tempDHT_; }
+float SensorReadings::getTemperatureDHT()const{ return temperatureDHT_; }
 
-float SensorReadings::getTempLM35()const{ return tempLM35_; }
+float SensorReadings::getTemperatureLM35()const{ return temperatureLM35_; }
 
-float SensorReadings::getTempAvg()const{
-  if(!isnan(tempDHT_))
-    return (tempDHT_+tempLM35_)/2;
+float SensorReadings::getAverageTemperature()const{
+  if(!isnan(temperatureDHT_))
+    return (temperatureDHT_+temperatureLM35_)/2;
   else
-    return tempLM35_;
+    return temperatureLM35_;
 }
 
-float SensorReadings::getGas()const{ return gas_; }
+float SensorReadings::getAirQuality()const{ return airQuality_; }
 
-float SensorReadings::getLight()const{ return lightVal_; }
+float SensorReadings::getLight()const{ return light_; }
