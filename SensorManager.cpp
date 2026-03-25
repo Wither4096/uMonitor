@@ -25,7 +25,7 @@ float SensorManager::readMQ135_(){
 
 float SensorManager::readLight_(){
   int raw=analogRead(lightPin_);
-  float mappedValue=raw/40.95; //maps the light value out of
+  float mappedValue=raw/40.95; //maps the light value out of 100.00
   return mappedValue;
 }
 

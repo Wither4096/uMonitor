@@ -1,12 +1,13 @@
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
 #include "definitions.h"
 #include "SensorManager.h"
 #include "SensorReadings.h"
 
 #define LOGGING 1
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
 
 SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 SensorReadings readings;

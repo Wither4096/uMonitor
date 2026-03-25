@@ -1,4 +1,5 @@
 #include "SensorReadings.h"
+#include <Arduino.h> //Required for NaN checking
 
 // void SensorReadings::setHum(float hum){ hum_=hum; }
 // void SensorReadings::setTempDHT(float tempDHT){ tempDHT_=tempDHT; }
@@ -26,7 +27,12 @@ float SensorReadings::getTempDHT()const{ return tempDHT_; }
 
 float SensorReadings::getTempLM35()const{ return tempLM35_; }
 
-float SensorReadings::getTempAvg()const{ return (tempDHT_+tempLM35_)/2; }
+float SensorReadings::getTempAvg()const{
+  if(!isnan(tempDHT_))
+    return (tempDHT_+tempLM35_)/2;
+  else
+    return tempLM35_;
+}
 
 float SensorReadings::getGas()const{ return gas_; }
 
