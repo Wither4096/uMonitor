@@ -63,13 +63,13 @@ void loop() {
 }
 
 void alertAir(int gas){
-  if(gas>=600){
+  if(gas>=60){
     tone(BUZZER_PIN,880);
     digitalWrite(LED_PIN,HIGH);
     delay(500);
   }
   
-  else if(gas>=500){
+  else if(gas>=50){
   tone(BUZZER_PIN,440);
   digitalWrite(LED_PIN,HIGH);
   delay(1000);

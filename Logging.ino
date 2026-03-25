@@ -17,11 +17,9 @@ void serialLogDataPoints(){
   Serial.print("Light Intensity : ");Serial.println(readings.getLight());
 
 
-  Serial.print("Raw MQ135: ");Serial.println(readings.getGas());
+  Serial.print("Relative AQI: ");Serial.println(readings.getGas());
 
-
-  Serial.print("Mapped MQ135: ");Serial.println(map(readings.getGas(),0,4095,0,1023));
-
+  
 
   
   Serial.println("---END LOG---");Serial.println();

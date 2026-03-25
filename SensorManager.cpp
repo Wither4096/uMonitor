@@ -19,7 +19,7 @@ float SensorManager::readLM35_(){
 
 float SensorManager::readMQ135_(){
   int raw=analogRead(mqPin_);
-  int mappedValue=map(raw,0,4095,0,1023);
+  int mappedValue=raw/40.95;
   return mappedValue;
 }
 
