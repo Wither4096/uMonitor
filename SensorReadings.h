@@ -2,26 +2,27 @@
 class SensorReadings{
   private:
   float hum_;
-  float tempuDHT_;
-  float tempuLM35_;
-  float mqVal_;
+  float tempDHT_;
+  float tempLM35_;
+  float gas_;
   float lightVal_;
   public:
 
   //Setters
-  void setHum(float hum);
-  void setTempDHT(float tempuDHT);
-  void setTempLM35(float tempuLM35);
-  void setMQVal(float mqVal);
-  void setLightVal(float lightVal);
+  // void setHum(float hum);
+  // void setTempDHT(float tempDHT);
+  // void setTempLM35(float tempLM35);
+  // void setgas(float gas);
+  // void setLightVal(float lightVal);
+  void updateValues(float hum, float tempDHT,float tempLM35, float gas, float lightVal);
 
   //Getters
-  float getHum();
-  float getTempDHT();
-  float getTempLM35();
-  float getTempAvg();
-  float getGas();
-  float getLight();
+  float getHum()const;
+  float getTempDHT()const;
+  float getTempLM35()const;
+  float getTempAvg()const;
+  float getGas()const;
+  float getLight()const;
 
   SensorReadings();
 };
