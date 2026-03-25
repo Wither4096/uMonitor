@@ -14,7 +14,7 @@ class SensorReadings{
   // void setTempLM35(float tempLM35);
   // void setgas(float gas);
   // void setlight(float light);
-  void updateValues(float hum, float tempDHT,float tempLM35, float gas, float light);
+  void updateValues(float hum, float tempDHT,float tempLM35, float airQuality, float light);
 
   //Getters
   float getHumidity()const;

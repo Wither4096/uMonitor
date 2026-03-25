@@ -12,8 +12,8 @@ lightPin_(lightPin)
 
 float SensorManager::readLM35_(){
   float raw=analogRead(lm35Pin_);
-  float voltage=(raw/4095.0)*5.0;
-  float weightedValue=voltage*10.0;
+  float voltage=(raw/4095.0)*3.3;
+  float weightedValue=voltage*16.0; // Calibration based on testing @ room temperature
   return weightedValue;
 }
 
