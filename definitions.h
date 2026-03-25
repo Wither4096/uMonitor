@@ -1,10 +1,10 @@
 #pragma once
-const int mqPin=34;
-const int dhtPin=33;
-const int lm35Pin=13;
-const int lightResPin=14;
-const int ledPin=12;
-const int buzzer=15;
+constexpr int MQ_PIN=34;
+constexpr int DHT_PIN=33;
+constexpr int LM35_PIN=13;
+constexpr int LIGHT_RES_PIN=14;
+constexpr int LED_PIN=12;
+constexpr int BUZZER_PIN=15;
 
 //Custom Boot Splash Image
 // 'μMonitor', 128x32px
