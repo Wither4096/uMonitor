@@ -18,13 +18,13 @@ float SensorManager::readLM35_(){
 }
 
 float SensorManager::readMQ135_(){
-  int raw=analogRead(mqPin_);
-  int mappedValue=raw/ADC_MAX*100.0;
+  float raw=analogRead(mqPin_);
+  float mappedValue=raw/ADC_MAX*100.0;
   return mappedValue;
 }
 
 float SensorManager::readLight_(){
-  int raw=analogRead(lightPin_);
+  float raw=analogRead(lightPin_);
   float mappedValue=raw/ADC_MAX*100.0; //maps the light value out of 100.00
   return mappedValue;
 }

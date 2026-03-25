@@ -28,10 +28,20 @@ float SensorReadings::getTemperatureDHT()const{ return temperatureDHT_; }
 float SensorReadings::getTemperatureLM35()const{ return temperatureLM35_; }
 
 float SensorReadings::getAverageTemperature()const{
-  if(!isnan(temperatureDHT_))
-    return (temperatureDHT_+temperatureLM35_)/2;
-  else
+  bool dhtValid=!isnan(temperatureDHT_);
+  bool lm35Valid=!(temperatureLM35_<-10||temperatureLM35_>80);
+  if(dhtValid&&lm35Valid){
+    return (temperatureLM35_+temperatureDHT_)/2;
+  }
+  else if(dhtValid&&!lm35Valid){
+    return temperatureDHT_;
+  }
+  else if(!dhtValid&&lm35Valid){
     return temperatureLM35_;
+  }
+  else{
+    return NAN;
+  }
 }
 
 float SensorReadings::getAirQuality()const{ return airQuality_; }
