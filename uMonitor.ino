@@ -13,18 +13,18 @@
 #define SCREEN_HEIGHT 32
 Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&WIRE);
 
-DHT dhtSens(dhtPin,DHT11);
-SensorReadings vars;
+DHT dhtSens(DHT_PIN,DHT11);
+SensorReadings readings;
 
 void setup() {
   Serial.begin(9600);
   
-  pinMode(mqPin,INPUT);
-  pinMode(dhtPin,INPUT);
-  pinMode(lightResPin,INPUT);
-  pinMode(lm35Pin,INPUT);
-  pinMode(ledPin,OUTPUT);
-  pinMode(buzzer,OUTPUT);
+  pinMode(MQ_PIN,INPUT);
+  pinMode(DHT_PIN,INPUT);
+  pinMode(LIGHT_RES_PIN,INPUT);
+  pinMode(LM35_PIN,INPUT);
+  pinMode(LED_PIN,OUTPUT);
+  pinMode(BUZZER_PIN,OUTPUT);
 
   dhtSens.begin();
 
@@ -40,35 +40,37 @@ void setup() {
 }
 
 void loop() {
-  vars.setHum(dhtSens.readHumidity());
-  vars.setTempDHT(dhtSens.readTemperature());
-  vars.setTempLM35((analogRead(lm35Pin)/4095.0)*5.0*10.0);
-  vars.setMQVal(analogRead(mqPin));
-  vars.setLightVal(analogRead(lightResPin));
+  //readings.setHum(dhtSens.readHumidity());
+  //readings.setTempDHT(dhtSens.readTemperature());
+  //readings.setTempLM35((analogRead(LM35_PIN)/4095.0)*5.0*10.0);
+  //readings.setgas(analogRead(MQ_PIN));
+  //readings.setLightVal(analogRead(LIGHT_RES_PIN));
+  readings.updateValues( float(dhtSens.readHumidity()) , float(dhtSens.readTemperature()) , float(((analogRead(LM35_PIN)/4095.0)*5.0*10.0)) , float(analogRead(MQ_PIN)) , float(analogRead(LIGHT_RES_PIN)) );
 
-  alertAir(map(vars.getGas(),0,4095,0,1023));
+  alertAir(map(readings.getGas(),0,4095,0,1023));
 
   renderDisplay();
+
   #ifdef LOGGING
   serialLogDataPoints();
   #endif
 }
 
-void alertAir(int ppm){
-  if(ppm>=600){
-    tone(buzzer,880);
-    digitalWrite(ledPin,HIGH);
+void alertAir(int gas){
+  if(gas>=600){
+    tone(BUZZER_PIN,880);
+    digitalWrite(LED_PIN,HIGH);
     delay(500);
   }
   
-  else if(ppm>=500){
-  tone(buzzer,440);
-  digitalWrite(ledPin,HIGH);
+  else if(gas>=500){
+  tone(BUZZER_PIN,440);
+  digitalWrite(LED_PIN,HIGH);
   delay(1000);
   }
 
-  noTone(buzzer);
-  digitalWrite(ledPin,LOW);
+  noTone(BUZZER_PIN);
+  digitalWrite(LED_PIN,LOW);
 }
 
 void renderDisplay(){
@@ -77,10 +79,10 @@ void renderDisplay(){
   oled.clearDisplay();
 
   //oled.println("   Live Readings");
-  oled.print("    LIT: ");oled.println(vars.getLight()/40.95);
-  oled.print("    HUM: ");oled.println(vars.getHum());
-  oled.print("    TEMP: ");oled.println(vars.getTempAvg());
-  oled.print("    AIR: ");oled.println(map(vars.getGas(),0,4095,0,1023));
+  oled.print("    LIT: ");oled.println(readings.getLight()/40.95);
+  oled.print("    HUM: ");oled.println(readings.getHum());
+  oled.print("    TEMP: ");oled.println(readings.getTempAvg());
+  oled.print("    AIR: ");oled.println(map(readings.getGas(),0,4095,0,1023));
 
   oled.display();
 }
