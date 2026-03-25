@@ -2,8 +2,6 @@
 #include "SensorManager.h"
 #include "SensorReadings.h"
 
-#define LOGGING 1
-
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -80,15 +78,22 @@ void alertAir(int gas){
 }
 
 void renderDisplay(SensorReadings& readings){
-  oled.setCursor(0, 0);
 
-  oled.clearDisplay();
+  unsigned long int currentMillis=millis();
+  unsigned long int lastMillis=0;
+  if(currentMillis-lastMillis>=DISPLAY_INTERVAL){
+    lastMillis=currentMillis;
 
-  //oled.println("   Live Readings");
-  oled.print("    TMP: ");oled.println(readings.getAverageTemperature());
-  oled.print("    HUM: ");oled.println(readings.getHumidity());
-  oled.print("    AQI: ");oled.println(readings.getAirQuality());
-  oled.print("    LUX: ");oled.println(readings.getLight());
+    oled.setCursor(0, 0);
 
-  oled.display();
+    oled.clearDisplay();
+
+    //oled.println("   Live Readings");
+    oled.print("    TMP: ");oled.println(readings.getAverageTemperature());
+    oled.print("    HUM: ");oled.println(readings.getHumidity());
+    oled.print("    AQI: ");oled.println(readings.getAirQuality());
+    oled.print("    LUX: ");oled.println(readings.getLight());
+
+    oled.display();
+  }
 }
