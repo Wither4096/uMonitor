@@ -29,7 +29,6 @@ float SensorManager::readLight_(){
   return mappedValue;
 }
 
-//void SensorManager::init() { dht_.begin(); };
 void SensorManager::updateReadings(SensorReadings &readings){
   float humidity=dht_.readHumidity();
   float temperatureDHT=dht_.readTemperature();

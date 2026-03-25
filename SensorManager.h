@@ -18,7 +18,6 @@ class SensorManager{
   public:
 
   SensorManager(int dhtPin, int dhtType, int lm35pin, int mqPin, int lightPin);
-  //void init();
   void updateReadings(SensorReadings& readings);
 
 };

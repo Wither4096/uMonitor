@@ -1,12 +1,6 @@
 #include "SensorReadings.h"
 #include <Arduino.h> //Required for NaN checking
 
-// void SensorReadings::setHum(float hum){ hum_=hum; }
-// void SensorReadings::setTempDHT(float tempDHT){ tempDHT_=tempDHT; }
-// void SensorReadings::setTempLM35(float tempLM35){ tempLM35_=tempLM35; }
-// void SensorReadings::setgas(float gas){ gas_=gas; }
-// void SensorReadings::setlight(float light){ light_=light; }
-
 SensorReadings::SensorReadings()
 :
 humidity_(0), temperatureDHT_(0), temperatureLM35_(0), airQuality_(0), light_(0)

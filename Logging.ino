@@ -1,9 +1,8 @@
 #ifdef LOGGING
 void serialLogDataPoints(){
-  unsigned long int currentMillis=millis();
-  unsigned long int lastMillis=0;
-  if(currentMillis-lastMillis>=LOGGING_INTERVAL){
-    lastMillis=currentMillis;
+  unsigned long int logCurrentMillis=millis();
+  if(logCurrentMillis-logLastMillis>=LOGGING_INTERVAL){
+    logLastMillis=logCurrentMillis;
     Serial.println("---START LOG---");
   
     Serial.print("Humidity: ");Serial.print(readings.getHumidity());Serial.println("%");

@@ -9,11 +9,6 @@ class SensorReadings{
   public:
 
   //Setters
-  // void setHum(float hum);
-  // void setTempDHT(float tempDHT);
-  // void setTempLM35(float tempLM35);
-  // void setgas(float gas);
-  // void setlight(float light);
   void updateValues(float hum, float tempDHT,float tempLM35, float airQuality, float light);
 
   //Getters

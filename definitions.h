@@ -6,6 +6,8 @@ constexpr int LIGHT_RES_PIN=14;
 constexpr int LED_PIN=12;
 constexpr int BUZZER_PIN=15;
 
+extern unsigned long int displayLastMillis=0;
+extern unsigned long int logLastMillis=0;
 
 #define DISPLAY_INTERVAL 2500
 #define LOGGING_INTERVAL 5000

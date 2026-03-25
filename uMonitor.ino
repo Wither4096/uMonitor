@@ -36,19 +36,9 @@ void setup() {
 
   delay(2500);
   oled.clearDisplay();
-
-  //manager.init();
 }
 
 void loop() {
-  //readings.updateValues(
-  //float(dhtSens.readHumidity()),
-  //float(dhtSens.readTemperature()),
-  //float(((analogRead(LM35_PIN)/4095.0)*5.0*10.0)),
-  //float(analogRead(MQ_PIN)),
-  //float(analogRead(LIGHT_RES_PIN))
-  //);
-  
   manager.updateReadings(readings);
 
   alertAir(readings.getAirQuality());
@@ -60,14 +50,14 @@ void loop() {
   #endif
 }
 
-void alertAir(int gas){
-  if(gas>=60){
+void alertAir(int airQuality){
+  if(airQuality>=60){
     tone(BUZZER_PIN,880);
     digitalWrite(LED_PIN,HIGH);
     delay(500);
   }
   
-  else if(gas>=50){
+  else if(airQuality>=50){
   tone(BUZZER_PIN,440);
   digitalWrite(LED_PIN,HIGH);
   delay(1000);
@@ -75,20 +65,19 @@ void alertAir(int gas){
 
   noTone(BUZZER_PIN);
   digitalWrite(LED_PIN,LOW);
+  delay(500);
 }
 
 void renderDisplay(SensorReadings& readings){
 
-  unsigned long int currentMillis=millis();
-  unsigned long int lastMillis=0;
-  if(currentMillis-lastMillis>=DISPLAY_INTERVAL){
-    lastMillis=currentMillis;
+  unsigned long int displayCurrentMillis=millis();
+  if(displayCurrentMillis-displayLastMillis>=DISPLAY_INTERVAL){
+    displayLastMillis=displayCurrentMillis;
 
     oled.setCursor(0, 0);
 
     oled.clearDisplay();
 
-    //oled.println("   Live Readings");
     oled.print("    TMP: ");oled.println(readings.getAverageTemperature());
     oled.print("    HUM: ");oled.println(readings.getHumidity());
     oled.print("    AQI: ");oled.println(readings.getAirQuality());
