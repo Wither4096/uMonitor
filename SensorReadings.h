@@ -1,4 +1,5 @@
 #pragma once
+#include <Arduino.h> //Required for NaN checking
 class SensorReadings{
   private:
   float humidity_;

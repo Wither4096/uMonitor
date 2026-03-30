@@ -1,5 +1,4 @@
 #include "SensorReadings.h"
-#include <Arduino.h> //Required for NaN checking
 
 SensorReadings::SensorReadings()
 :
