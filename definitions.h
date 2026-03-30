@@ -9,8 +9,8 @@ constexpr int BUZZER_PIN=15;
 extern unsigned long int displayLastMillis=0;
 extern unsigned long int logLastMillis=0;
 
-#define DISPLAY_INTERVAL 2500
-#define LOGGING_INTERVAL 5000
+extern constexpr int DISPLAY_INTERVAL=2500;
+extern constexpr int LOGGING_INTERVAL=5000;
 
 #define LOGGING 1
 

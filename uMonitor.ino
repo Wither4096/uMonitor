@@ -10,10 +10,9 @@
 SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 SensorReadings readings;
 
-#define WIRE Wire
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 32
-Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&WIRE);
+constexpr int SCREEN_WIDTH=128;
+constexpr int SCREEN_HEIGHT=32;
+Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&Wire);
 
 
 void setup() {
