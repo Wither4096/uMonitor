@@ -45,7 +45,7 @@ void loop() {
   renderDisplay(readings);
 
   #ifdef LOGGING
-  serialLogDataPoints();
+  serialLogDataPoints(readings);
   #endif
 }
 

@@ -1,5 +1,5 @@
 #ifdef LOGGING
-void serialLogDataPoints(){
+void serialLogDataPoints(SensorReadings &readings){
   unsigned long int logCurrentMillis=millis();
   if(logCurrentMillis-logLastMillis>=LOGGING_INTERVAL){
     logLastMillis=logCurrentMillis;
