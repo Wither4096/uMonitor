@@ -7,7 +7,7 @@
 #include <Adafruit_SSD1306.h>
 
 
-SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
+//SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 //SensorReadings readings;
 
 constexpr int SCREEN_WIDTH=128;
@@ -39,6 +39,7 @@ void setup() {
 
 void loop() {
   //manager.updateReadings(readings);
+  SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
   SensorReadings readings = manager.update();
 
   alertAir(readings.getAirQuality());

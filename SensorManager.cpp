@@ -38,7 +38,7 @@ void SensorManager::updateReadings(SensorReadings &readings){
   readings.updateValues(humidity,temperatureDHT,temperatureLM35,airQuality,light);
 }
 SensorReadings SensorManager::update(){
-float humidity=dht_.readHumidity();
+  float humidity=dht_.readHumidity();
   float temperatureDHT=dht_.readTemperature();
   float temperatureLM35=readLM35_();
   float airQuality=readMQ135_();
