@@ -19,5 +19,5 @@ class SensorManager{
 
   SensorManager(int dhtPin, int dhtType, int lm35pin, int mqPin, int lightPin);
   void updateReadings(SensorReadings& readings);
-
+  SensorReadings update();
 };

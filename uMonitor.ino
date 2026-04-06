@@ -8,7 +8,7 @@
 
 
 SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
-SensorReadings readings;
+//SensorReadings readings;
 
 constexpr int SCREEN_WIDTH=128;
 constexpr int SCREEN_HEIGHT=32;
@@ -38,14 +38,15 @@ void setup() {
 }
 
 void loop() {
-  manager.updateReadings(readings);
+  //manager.updateReadings(readings);
+  SensorReadings readings = manager.update();
 
   alertAir(readings.getAirQuality());
 
   renderDisplay(readings);
 
   #ifdef LOGGING
-  serialLogDataPoints();
+  serialLogDataPoints(readings);
   #endif
 }
 

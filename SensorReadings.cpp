@@ -5,6 +5,11 @@ SensorReadings::SensorReadings()
 humidity_(0), temperatureDHT_(0), temperatureLM35_(0), airQuality_(0), light_(0)
 {};
 
+SensorReadings::SensorReadings(float humidity, float temperatureDHT, float temperatureLM35, float airQuality, float light)
+:
+humidity_(humidity), temperatureDHT_(temperatureDHT), temperatureLM35_(temperatureLM35), airQuality_(airQuality_), light_(light)
+{};
+
 void SensorReadings::updateValues(float humidity, float temperatureDHT, float temperatureLM35, float airQuality, float light){
   humidity_=humidity;
   temperatureDHT_=temperatureDHT;
