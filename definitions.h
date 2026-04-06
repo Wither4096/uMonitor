@@ -10,7 +10,7 @@ extern unsigned long int displayLastMillis=0;
 extern unsigned long int logLastMillis=0;
 
 extern constexpr int DISPLAY_INTERVAL=2500;
-extern constexpr int LOGGING_INTERVAL=5000;
+extern constexpr int LOGGING_INTERVAL=1000;
 
 #define LOGGING 1
 
