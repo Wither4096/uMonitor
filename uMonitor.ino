@@ -28,9 +28,9 @@ void setup() {
 
   oled.begin(SSD1306_SWITCHCAPVCC,0x3C);
   oled.clearDisplay();
-  oled.setTextSize(1);
+  oled.setTextSize(2);
   oled.setTextColor(SSD1306_WHITE);
-  oled.drawBitmap(0,0,BOOTBMP,128,32,WHITE);
+  oled.drawBitmap(0,0,BOOTBMP64,SCREEN_WIDTH,SCREEN_HEIGHT,WHITE);
   oled.display();
 
   delay(2500);
@@ -78,11 +78,10 @@ void renderDisplay(SensorReadings& readings){
     oled.setCursor(0, 0);
 
     oled.clearDisplay();
-
-    oled.print("    TMP: ");oled.println(readings.getAverageTemperature());
-    oled.print("    HUM: ");oled.println(readings.getHumidity());
-    oled.print("    AQI: ");oled.println(readings.getAirQuality());
-    oled.print("    LUX: ");oled.println(readings.getLight());
+    oled.print("TMP: ");oled.println(readings.getAverageTemperature());
+    oled.print("HUM: ");oled.println(readings.getHumidity());
+    oled.print("AQI: ");oled.println(readings.getAirQuality());
+    oled.print("LUX: ");oled.println(readings.getLight());
 
     oled.display();
   }
