@@ -1,19 +1,18 @@
 #pragma once
-constexpr int MQ_PIN=34;
-constexpr int DHT_PIN=33;
-constexpr int LM35_PIN=13;
-constexpr int LIGHT_RES_PIN=14;
-constexpr int LED_PIN=12;
-constexpr int BUZZER_PIN=15;
+constexpr int MQ_PIN = 34;
+constexpr int DHT_PIN = 33;
+constexpr int LM35_PIN = 13;
+constexpr int LIGHT_RES_PIN = 14;
+constexpr int LED_PIN = 12;
+constexpr int BUZZER_PIN = 15;
 
-extern unsigned long int displayLastMillis=0;
-extern unsigned long int logLastMillis=0;
+extern unsigned long int displayLastMillis = 0;
+extern unsigned long int logLastMillis = 0;
 
-extern constexpr int DISPLAY_INTERVAL=2500;
-extern constexpr int LOGGING_INTERVAL=1000;
+extern constexpr int DISPLAY_INTERVAL = 2500;
+extern constexpr int LOGGING_INTERVAL = 1000;
 
 #define LOGGING 1
-
 //Custom Boot Splash Image
 // 'μMonitor', 128x32px
 const unsigned char BOOTBMP [] PROGMEM = {
