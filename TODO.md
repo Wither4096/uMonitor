@@ -18,11 +18,11 @@
 
 ### Displays
 
-- [ ] Implement Displays class
-- [ ] Implement display switching logic using a multiplexer
-  - [ ] Implement way to center text on each display
+- [x] Implement Displays class
+- [x] Implement display switching logic using a multiplexer
+  - [x] Implement way to center text on each display
 
 ### Alert
 
 - [ ] Create Alert Class
-- [ ] Use RGB LED for different statuses
+- [x] Use RGB LED for different statuses
