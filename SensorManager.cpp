@@ -26,7 +26,7 @@ float SensorManager::readMQ135_(){
 float SensorManager::readLight_(){
   float raw = analogRead(lightPin_);
   float mappedValue = raw / ADC_MAX * 100.0; //maps the light value out of 100.00
-  return mappedValue;
+  return 100.0-mappedValue; //display from 0 to 100 instead of 100 to 0 (darkest to brightest)
 }
 
 void SensorManager::updateReadings(SensorReadings &readings){
