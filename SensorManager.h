@@ -2,7 +2,7 @@
 #include <DHT.h>
 #include "SensorReadings.h"
 
-constexpr float ADC_MAX=4095.0;
+constexpr float ADC_MAX = 4095.0;
 
 class SensorManager{
   private:
@@ -19,5 +19,5 @@ class SensorManager{
 
   SensorManager(int dhtPin, int dhtType, int lm35pin, int mqPin, int lightPin);
   void updateReadings(SensorReadings& readings);
-
+  SensorReadings update();
 };

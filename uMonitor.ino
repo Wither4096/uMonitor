@@ -7,11 +7,11 @@
 #include <Adafruit_SSD1306.h>
 
 
-SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
-SensorReadings readings;
+//SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
+//SensorReadings readings;
 
-constexpr int SCREEN_WIDTH=128;
-constexpr int SCREEN_HEIGHT=32;
+constexpr int SCREEN_WIDTH = 128;
+constexpr int SCREEN_HEIGHT = 64;
 Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&Wire);
 
 
@@ -38,7 +38,9 @@ void setup() {
 }
 
 void loop() {
-  manager.updateReadings(readings);
+  //manager.updateReadings(readings);
+  SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
+  SensorReadings readings = manager.update();
 
   alertAir(readings.getAirQuality());
 
@@ -50,13 +52,13 @@ void loop() {
 }
 
 void alertAir(int airQuality){
-  if(airQuality>=60){
+  if(airQuality >= 60){
     tone(BUZZER_PIN,880);
     digitalWrite(LED_PIN,HIGH);
     delay(500);
   }
   
-  else if(airQuality>=50){
+  else if(airQuality >= 50){
   tone(BUZZER_PIN,440);
   digitalWrite(LED_PIN,HIGH);
   delay(1000);
@@ -70,8 +72,8 @@ void alertAir(int airQuality){
 void renderDisplay(SensorReadings& readings){
 
   unsigned long int displayCurrentMillis=millis();
-  if(displayCurrentMillis-displayLastMillis>=DISPLAY_INTERVAL){
-    displayLastMillis=displayCurrentMillis;
+  if(displayCurrentMillis - displayLastMillis >= DISPLAY_INTERVAL){
+    displayLastMillis = displayCurrentMillis;
 
     oled.setCursor(0, 0);
 

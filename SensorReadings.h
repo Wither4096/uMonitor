@@ -21,4 +21,5 @@ class SensorReadings{
   float getLight()const;
 
   SensorReadings();
+  SensorReadings(float humidity, float temperatureDHT, float temperatureLM35, float airQuality, float light);
 };
