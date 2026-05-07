@@ -3,7 +3,7 @@
 #include "SensorReadings.h"
 
 #define SAMPLES 16
-constexpr float ADC_MAX = 4095.0;
+#define ADC_MAX 4095.0
 
 class SensorManager{
   private:

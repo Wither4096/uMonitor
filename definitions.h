@@ -1,16 +1,19 @@
 #pragma once
-constexpr int MQ_PIN = 34;
-constexpr int DHT_PIN = 33;
-constexpr int LM35_PIN = 13;
-constexpr int LIGHT_RES_PIN = 14;
-constexpr int LED_PIN = 12;
-constexpr int BUZZER_PIN = 15;
+#define MQ_PIN 34
+#define DHT_PIN 18
+#define LM35_PIN 13
+#define LIGHT_RES_PIN 14
 
+#define RED_LED_PIN 12
+#define GREEN_LED_PIN 27
+#define BLUE_LED_PIN 33
+
+#define BUZZER_PIN 15
+
+#define DISPLAY_INTERVAL 2500
+#define LOGGING_INTERVAL 1000
 extern unsigned long int displayLastMillis = 0;
 extern unsigned long int logLastMillis = 0;
-
-extern constexpr int DISPLAY_INTERVAL = 2500;
-extern constexpr int LOGGING_INTERVAL = 1000;
 
 #define LOGGING 1
 
