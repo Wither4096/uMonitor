@@ -2,6 +2,7 @@
 #include <DHT.h>
 #include "SensorReadings.h"
 
+#define SAMPLES 16
 constexpr float ADC_MAX = 4095.0;
 
 class SensorManager{
@@ -14,6 +15,8 @@ class SensorManager{
   float readLM35_();
   float readMQ135_();
   float readLight_();
+  float dhtAverageTemperature_();
+  float dhtAverageHumidity_();
 
   public:
 
