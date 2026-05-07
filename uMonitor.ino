@@ -1,6 +1,7 @@
 #include "definitions.h"
 #include "SensorManager.h"
 #include "SensorReadings.h"
+#include "Logging.h"
 
 #include <Wire.h>
 #include <Adafruit_GFX.h>
