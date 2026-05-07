@@ -11,8 +11,8 @@
 //SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 //SensorReadings readings;
 
-constexpr int SCREEN_WIDTH = 128;
-constexpr int SCREEN_HEIGHT = 64;
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
 Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&Wire);
 
 
@@ -23,9 +23,12 @@ void setup() {
   pinMode(DHT_PIN,INPUT);
   pinMode(LIGHT_RES_PIN,INPUT);
   pinMode(LM35_PIN,INPUT);
-  pinMode(LED_PIN,OUTPUT);
-  pinMode(BUZZER_PIN,OUTPUT);
 
+  pinMode(RED_LED_PIN,OUTPUT);
+  pinMode(GREEN_LED_PIN,OUTPUT);
+  pinMode(BLUE_LED_PIN,OUTPUT);
+
+  pinMode(BUZZER_PIN,OUTPUT);
 
   oled.begin(SSD1306_SWITCHCAPVCC,0x3C);
   oled.clearDisplay();
@@ -53,26 +56,44 @@ void loop() {
 }
 
 void alertAir(int airQuality){
-  if(airQuality >= 60){
+  if(airQuality <= 30){
     tone(BUZZER_PIN,880);
-    digitalWrite(LED_PIN,HIGH);
+    digitalWrite(RED_LED_PIN,HIGH);
+    digitalWrite(GREEN_LED_PIN,LOW);
+    digitalWrite(BLUE_LED_PIN,LOW);
+
+    delay(500);
+    noTone(BUZZER_PIN);
+    digitalWrite(RED_LED_PIN,LOW);
+    digitalWrite(GREEN_LED_PIN,LOW);
+    digitalWrite(BLUE_LED_PIN,LOW);
     delay(500);
   }
   
-  else if(airQuality >= 50){
-  tone(BUZZER_PIN,440);
-  digitalWrite(LED_PIN,HIGH);
-  delay(1000);
+  else if(airQuality < 50 && airQuality > 30){
+    tone(BUZZER_PIN,440);
+    digitalWrite(RED_LED_PIN,HIGH);
+    digitalWrite(GREEN_LED_PIN,HIGH);
+    digitalWrite(BLUE_LED_PIN,LOW);
+
+    delay(1000);
+    noTone(BUZZER_PIN);
+    digitalWrite(RED_LED_PIN,LOW);
+    digitalWrite(GREEN_LED_PIN,LOW);
+    digitalWrite(BLUE_LED_PIN,LOW);
+    delay(1000);
   }
 
-  noTone(BUZZER_PIN);
-  digitalWrite(LED_PIN,LOW);
-  delay(500);
+  else if(airQuality >= 50){
+    digitalWrite(RED_LED_PIN,LOW);
+    digitalWrite(GREEN_LED_PIN,HIGH);
+    digitalWrite(BLUE_LED_PIN,LOW);
+  }
 }
 
 void renderDisplay(SensorReadings& readings){
 
-  unsigned long int displayCurrentMillis=millis();
+  unsigned long int displayCurrentMillis = millis();
   if(displayCurrentMillis - displayLastMillis >= DISPLAY_INTERVAL){
     displayLastMillis = displayCurrentMillis;
 
