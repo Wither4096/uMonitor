@@ -1,4 +1,4 @@
-#include "definitions.h"
+#include "config.h"
 #include "SensorManager.h"
 #include "SensorReadings.h"
 #include "SerialLogging.h"
