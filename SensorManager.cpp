@@ -44,13 +44,13 @@ float SensorManager::readLight_(){
 // Possible skip using them and take the the readings directly
 
 float SensorManager::dhtAverageHumidity_(){
-  int averageHumidity = 0;
+  double averageHumidity = 0;
   for(int i = 0; i < 2 ; i++) averageHumidity += dht_.readHumidity();
   return averageHumidity / 2;
 }
 
 float SensorManager::dhtAverageTemperature_(){
-  int averageTemperature = 0;
+  double averageTemperature = 0;
   for(int i = 0; i < 2 ; i++) averageTemperature += dht_.readTemperature();
   return averageTemperature / 2;
 }
