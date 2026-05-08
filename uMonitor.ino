@@ -8,7 +8,7 @@
 #include <Adafruit_SSD1306.h>
 
 
-//SensorManager manager(DHT_PIN,11,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
+//SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 //SensorReadings readings;
 
 #define SCREEN_WIDTH 128
@@ -58,6 +58,7 @@ void loop() {
 }
 
 void alertAir(int airQuality, int temperature){
+
   if(airQuality <= 45){
     tone(BUZZER_PIN,880);
     digitalWrite(RED_LED_PIN,HIGH);
@@ -72,10 +73,10 @@ void alertAir(int airQuality, int temperature){
     delay(500);
   }
   
-  else if(airQuality < 60 && airQuality > 45){
+  else if(airQuality <= 59){
     tone(BUZZER_PIN,440);
     digitalWrite(RED_LED_PIN,HIGH);
-    analogWrite(GREEN_LED_PIN,96);
+    analogWrite(GREEN_LED_PIN,32);
     digitalWrite(BLUE_LED_PIN,LOW);
 
     delay(1000);
@@ -86,22 +87,25 @@ void alertAir(int airQuality, int temperature){
     delay(1000);
   }
 
-  else if(airQuality >= 60 && (temperature < 26 && temperature > 20)){ // Nominal Condition
-    digitalWrite(RED_LED_PIN,LOW);
-    analogWrite(GREEN_LED_PIN,255);
-    digitalWrite(BLUE_LED_PIN,LOW);
-  }
-
-  else if(airQuality >= 60 && temperature < 20){ // Cool Condition
-    digitalWrite(RED_LED_PIN,LOW);
-    analogWrite(GREEN_LED_PIN,96);
-    digitalWrite(BLUE_LED_PIN,HIGH);
-  }
-
-  else if(airQuality >= 60 && temperature > 26){ // Warm Condition
-    digitalWrite(RED_LED_PIN,LOW);
-    analogWrite(GREEN_LED_PIN,96);
-    digitalWrite(BLUE_LED_PIN,HIGH);
+  else {
+  //  if(temperature >= 26){ // Warm Condition
+  //    digitalWrite(RED_LED_PIN,HIGH);
+  //    analogWrite(GREEN_LED_PIN,48);
+  //    digitalWrite(BLUE_LED_PIN,LOW);
+  //  }
+  //  else if(temperature <= 20){ // Cool Condition
+  //    digitalWrite(RED_LED_PIN,LOW);
+  //    analogWrite(GREEN_LED_PIN,96);
+  //    digitalWrite(BLUE_LED_PIN,HIGH);
+  //  }
+  //  else{ // Nominal Condition
+  //    digitalWrite(RED_LED_PIN,LOW);
+  //    analogWrite(GREEN_LED_PIN,255);
+  //    digitalWrite(BLUE_LED_PIN,LOW);
+  //  }
+  digitalWrite(RED_LED_PIN,LOW);
+  analogWrite(GREEN_LED_PIN,255);
+  digitalWrite(BLUE_LED_PIN,LOW);
   }
 }
 
