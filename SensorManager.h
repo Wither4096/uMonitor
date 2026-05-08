@@ -2,7 +2,7 @@
 #include <DHT.h>
 #include "SensorReadings.h"
 
-#define SAMPLES 16
+#define SAMPLES 512
 #define ADC_MAX 4095.0
 
 class SensorManager{

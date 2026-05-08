@@ -12,7 +12,7 @@ lightPin_(lightPin)
 
 float SensorManager::readLM35_(){
   double weightedValue = 0;
-  for(int i=0; i < SAMPLES ; i++){
+  for(int i = 0; i < SAMPLES ; i++){
     float raw = analogRead(lm35Pin_);
     float voltage = (raw / ADC_MAX) * 5.0;
     weightedValue += voltage * 16.0; // Calibration based on testing @ room temperature
@@ -22,7 +22,7 @@ float SensorManager::readLM35_(){
 
 float SensorManager::readMQ135_(){
   double mappedValue = 0;
-  for(int i=0; i < SAMPLES ; i++){
+  for(int i = 0; i < SAMPLES ; i++){
     float raw = analogRead(mqPin_);
     mappedValue += raw / ADC_MAX * 100.0;
   }
@@ -32,7 +32,7 @@ float SensorManager::readMQ135_(){
 
 float SensorManager::readLight_(){
   double mappedValue = 0;
-  for(int i=0; i < SAMPLES ; i++){
+  for(int i = 0; i < SAMPLES ; i++){
     float raw = analogRead(lightPin_);
     mappedValue += raw / ADC_MAX * 100.0; //maps the light value out of 100.00
   }
@@ -42,13 +42,13 @@ float SensorManager::readLight_(){
 
 float SensorManager::dhtAverageHumidity_(){
   int averageHumidity = 0;
-  for(int i=0; i < SAMPLES ; i++) averageHumidity += dht_.readHumidity();
+  for(int i = 0; i < SAMPLES ; i++) averageHumidity += dht_.readHumidity();
   return averageHumidity / SAMPLES;
 }
 
 float SensorManager::dhtAverageTemperature_(){
   int averageTemperature = 0;
-  for(int i=0; i < SAMPLES ; i++) averageTemperature += dht_.readTemperature();
+  for(int i = 0; i < SAMPLES ; i++) averageTemperature += dht_.readTemperature();
   return averageTemperature / SAMPLES;
 }
 
