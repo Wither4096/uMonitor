@@ -134,7 +134,7 @@ void alertAir(int airQuality, unsigned long int currentMillis){
     }
   }
 
-  else {
+  else{
     noTone(BUZZER_PIN);
     digitalWrite(RED_LED_PIN,LOW);
     analogWrite(GREEN_LED_PIN,255);
