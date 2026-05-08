@@ -1,9 +1,9 @@
 #ifdef LOGGING
 void serialLogDataPoints(SensorReadings &readings){
-  unsigned long int logCurrentMillis=millis();
-  if(logCurrentMillis-logLastMillis>=LOGGING_INTERVAL){
+  unsigned long int logCurrentMillis = millis();
+  if(logCurrentMillis - logLastMillis >= LOGGING_INTERVAL){
 
-    logLastMillis=logCurrentMillis;
+    logLastMillis = logCurrentMillis;
 
     Serial.println("---START LOG---");
 
