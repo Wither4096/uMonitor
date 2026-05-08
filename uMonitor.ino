@@ -48,7 +48,7 @@ void loop() {
   SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
   SensorReadings readings = manager.update();
 
-  alertAir(readings.getAirQuality());
+  alertAir(readings.getAirQuality(), readings.getAverageTemperature());
 
   renderDisplay(readings);
 
@@ -57,8 +57,8 @@ void loop() {
   #endif
 }
 
-void alertAir(int airQuality){
-  if(airQuality <= 30){
+void alertAir(int airQuality, int temperature){
+  if(airQuality <= 45){
     tone(BUZZER_PIN,880);
     digitalWrite(RED_LED_PIN,HIGH);
     analogWrite(GREEN_LED_PIN,0);
@@ -72,7 +72,7 @@ void alertAir(int airQuality){
     delay(500);
   }
   
-  else if(airQuality < 50 && airQuality > 30){
+  else if(airQuality < 60 && airQuality > 45){
     tone(BUZZER_PIN,440);
     digitalWrite(RED_LED_PIN,HIGH);
     analogWrite(GREEN_LED_PIN,96);
@@ -86,10 +86,22 @@ void alertAir(int airQuality){
     delay(1000);
   }
 
-  else if(airQuality >= 50){
+  else if(airQuality >= 60 && (temperature < 26 && temperature > 20)){ // Nominal Condition
     digitalWrite(RED_LED_PIN,LOW);
     analogWrite(GREEN_LED_PIN,255);
     digitalWrite(BLUE_LED_PIN,LOW);
+  }
+
+  else if(airQuality >= 60 && temperature < 20){ // Cool Condition
+    digitalWrite(RED_LED_PIN,LOW);
+    analogWrite(GREEN_LED_PIN,96);
+    digitalWrite(BLUE_LED_PIN,HIGH);
+  }
+
+  else if(airQuality >= 60 && temperature > 26){ // Warm Condition
+    digitalWrite(RED_LED_PIN,LOW);
+    analogWrite(GREEN_LED_PIN,96);
+    digitalWrite(BLUE_LED_PIN,HIGH);
   }
 }
 
