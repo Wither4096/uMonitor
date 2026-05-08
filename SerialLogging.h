@@ -1,11 +1,13 @@
 #ifdef LOGGING
-void serialLogDataPoints(SensorReadings &readings){
-  unsigned long int logCurrentMillis = millis();
-  if(logCurrentMillis - logLastMillis >= LOGGING_INTERVAL){
 
-    logLastMillis = logCurrentMillis;
+unsigned long int logPrevMillis = 0;
 
-    Serial.println("---START LOG---");
+void serialLogDataPoints(SensorReadings &readings, unsigned long int currentMillis){
+  if(currentMillis - logPrevMillis >= LOGGING_INTERVAL){
+
+    logPrevMillis = currentMillis;
+
+    Serial.println();Serial.println("---START LOG---");
 
     Serial.print("Humidity: ");Serial.print(readings.getHumidity());Serial.println("%");
     Serial.print("Temperature (DHT): ");Serial.print(readings.getTemperatureDHT());Serial.println("\xC2\xB0");
@@ -14,7 +16,7 @@ void serialLogDataPoints(SensorReadings &readings){
     Serial.print("Light Intensity : ");Serial.println(readings.getLight());
     Serial.print("Relative AQI: ");Serial.println(readings.getAirQuality());
 
-    Serial.println("---END LOG---");Serial.println();
+    Serial.println("---END LOG---");
   }
 };
 #endif

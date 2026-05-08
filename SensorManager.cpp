@@ -40,29 +40,32 @@ float SensorManager::readLight_(){
   return 100.0 - mappedValue; //display from 0 to 100 instead of 100 to 0 (darkest to brightest)
 }
 
+// DHT is a digital sensor, two samples is enough
+// Possible skip using them and take the the readings directly
+
 float SensorManager::dhtAverageHumidity_(){
   int averageHumidity = 0;
-  for(int i = 0; i < SAMPLES ; i++) averageHumidity += dht_.readHumidity();
-  return averageHumidity / SAMPLES;
+  for(int i = 0; i < 2 ; i++) averageHumidity += dht_.readHumidity();
+  return averageHumidity / 2;
 }
 
 float SensorManager::dhtAverageTemperature_(){
   int averageTemperature = 0;
-  for(int i = 0; i < SAMPLES ; i++) averageTemperature += dht_.readTemperature();
-  return averageTemperature / SAMPLES;
+  for(int i = 0; i < 2 ; i++) averageTemperature += dht_.readTemperature();
+  return averageTemperature / 2;
 }
 
 void SensorManager::updateReadings(SensorReadings &readings){
-  float humidity = dhtAverageHumidity_();
-  float temperatureDHT = dhtAverageTemperature_();
+  float humidity = dht_.readHumidity(); //dhtAverageHumidity_();
+  float temperatureDHT = dht_.readTemperature(); //dhtAverageTemperature_();
   float temperatureLM35 = readLM35_();
   float airQuality = readMQ135_();
   float light = readLight_();
   readings.updateValues(humidity,temperatureDHT,temperatureLM35,airQuality,light);
 }
 SensorReadings SensorManager::update(){
-  float humidity = dht_.readHumidity();
-  float temperatureDHT = dht_.readTemperature();
+  float humidity = dht_.readHumidity(); //dhtAverageHumidity_();
+  float temperatureDHT = dht_.readTemperature(); //dhtAverageTemperature_();
   float temperatureLM35 = readLM35_();
   float airQuality = readMQ135_();
   float light = readLight_();
