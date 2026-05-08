@@ -7,14 +7,11 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
+Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&Wire);
+unsigned long int displayPrevMillis = 10000;
 
 SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 SensorReadings readings;
-
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&Wire);
-unsigned long int displayPrevMillis = 10000;
 
 unsigned long int alertWarnPrevMillis = 0;
 unsigned long int alertCriticalPrevMillis = 0;

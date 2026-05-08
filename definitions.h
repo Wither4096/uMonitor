@@ -10,6 +10,9 @@
 
 #define BUZZER_PIN 15
 
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
 #define DISPLAY_INTERVAL 10000
 #define LOGGING_INTERVAL 1000
 
@@ -17,7 +20,6 @@
 #define ALERT_WARN_INTERVAL 1000
 
 #define LOGGING
-
 
 //Custom Boot Splash Images
 
