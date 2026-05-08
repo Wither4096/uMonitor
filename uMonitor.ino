@@ -52,7 +52,7 @@ void loop() {
   //SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
   //SensorReadings readings = manager.update();
 
-  alertAir(readings.getAirQuality(), currentMillis);
+  handleAlerts(readings.getAirQuality(), currentMillis);
 
   renderDisplay(readings, currentMillis);
 
@@ -61,7 +61,7 @@ void loop() {
   #endif
 }
 
-void alertAir(int airQuality, unsigned long int currentMillis){
+void handleAlerts(float airQuality, unsigned long int currentMillis){
   if(airQuality <= 45){
     if(!alertCriticalOn){
       if(currentMillis - alertCriticalPrevMillis >= ALERT_CRITICAL_INTERVAL){
