@@ -34,10 +34,12 @@ void setup() {
   oled.clearDisplay();
   oled.setTextSize(2);
   oled.setTextColor(SSD1306_WHITE);
+  oled.setTextWrap(false);
   oled.drawBitmap(0,0,BOOTBMP64,SCREEN_WIDTH,SCREEN_HEIGHT,WHITE);
   oled.display();
 
   delay(2500);
+  
   oled.clearDisplay();
 }
 
@@ -73,7 +75,7 @@ void alertAir(int airQuality){
   else if(airQuality < 50 && airQuality > 30){
     tone(BUZZER_PIN,440);
     digitalWrite(RED_LED_PIN,HIGH);
-    digitalWrite(GREEN_LED_PIN,HIGH);
+    analogWrite(GREEN_LED_PIN,96);
     digitalWrite(BLUE_LED_PIN,LOW);
 
     delay(1000);
@@ -100,10 +102,18 @@ void renderDisplay(SensorReadings& readings){
     oled.setCursor(0, 0);
 
     oled.clearDisplay();
-    oled.print("TMP: ");oled.println(readings.getAverageTemperature());
-    oled.print("HUM: ");oled.println(readings.getHumidity());
-    oled.print("AQI: ");oled.println(readings.getAirQuality());
-    oled.print("LUX: ");oled.println(readings.getLight());
+    if(readings.getAverageTemperature() == 100.00){ oled.print("TMP: ");oled.println("100.0"); }
+    else{ oled.print("TMP: ");oled.println(readings.getAverageTemperature()); }
+
+    if(readings.getHumidity() == 100.00){ oled.print("HUM: ");oled.println("100.0"); }
+    else if(isnan(readings.getHumidity())){ oled.print("HUM: ");oled.println("ERROR"); }
+    else{ oled.print("HUM: ");oled.println(readings.getHumidity()); }
+
+    if(readings.getAirQuality() == 100.00){ oled.print("AQI: ");oled.println("100.0"); }
+    else{ oled.print("AQI: ");oled.println(readings.getAirQuality()); }
+
+    if(readings.getLight() == 100.00){ oled.print("LUX: ");oled.println("100.0"); }
+    else{ oled.print("LUX: ");oled.println(readings.getLight()); }
 
     oled.display();
   }

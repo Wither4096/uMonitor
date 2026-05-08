@@ -10,9 +10,9 @@
 
 #define BUZZER_PIN 15
 
-#define DISPLAY_INTERVAL 2500
+#define DISPLAY_INTERVAL 10000
 #define LOGGING_INTERVAL 1000
-extern unsigned long int displayLastMillis = 0;
+extern unsigned long int displayLastMillis = 10000;
 extern unsigned long int logLastMillis = 0;
 
 #define LOGGING 1

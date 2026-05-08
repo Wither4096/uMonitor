@@ -1,3 +1,4 @@
+#include <cmath>
 #include "SensorReadings.h"
 
 SensorReadings::SensorReadings()
@@ -26,20 +27,22 @@ float SensorReadings::getTemperatureDHT()const{ return temperatureDHT_; }
 float SensorReadings::getTemperatureLM35()const{ return temperatureLM35_; }
 
 float SensorReadings::getAverageTemperature()const{
+
   bool dhtValid =! isnan(temperatureDHT_);
-  bool lm35Valid =! (temperatureLM35_ < -10 || temperatureLM35_ > 80);
+  bool lm35Valid =! (temperatureLM35_ <= -10 || temperatureLM35_ >= 80);
+  float temperatureDifference = abs(temperatureDHT_ - temperatureLM35_);
+
   if(dhtValid && lm35Valid){
+    if(temperatureDifference >= 5) return temperatureDHT_; // ensure that the difference between readings is small
+
     return (temperatureLM35_ + temperatureDHT_) / 2;
   }
-  else if(dhtValid && !lm35Valid){
-    return temperatureDHT_;
-  }
-  else if(!dhtValid && lm35Valid){
-    return temperatureLM35_;
-  }
-  else{
-    return NAN;
-  }
+
+  else if(dhtValid && !lm35Valid) return temperatureDHT_;
+
+  else if(!dhtValid && lm35Valid) return temperatureLM35_;
+
+  else return NAN;
 }
 
 float SensorReadings::getAirQuality()const{ return airQuality_; }
