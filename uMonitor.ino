@@ -39,7 +39,7 @@ void setup() {
   oled.display();
 
   delay(2500);
-  
+
   oled.clearDisplay();
 }
 
@@ -61,13 +61,13 @@ void alertAir(int airQuality){
   if(airQuality <= 30){
     tone(BUZZER_PIN,880);
     digitalWrite(RED_LED_PIN,HIGH);
-    digitalWrite(GREEN_LED_PIN,LOW);
+    analogWrite(GREEN_LED_PIN,0);
     digitalWrite(BLUE_LED_PIN,LOW);
 
     delay(500);
     noTone(BUZZER_PIN);
     digitalWrite(RED_LED_PIN,LOW);
-    digitalWrite(GREEN_LED_PIN,LOW);
+    analogWrite(GREEN_LED_PIN,0);
     digitalWrite(BLUE_LED_PIN,LOW);
     delay(500);
   }
@@ -81,14 +81,14 @@ void alertAir(int airQuality){
     delay(1000);
     noTone(BUZZER_PIN);
     digitalWrite(RED_LED_PIN,LOW);
-    digitalWrite(GREEN_LED_PIN,LOW);
+    analogWrite(GREEN_LED_PIN,0);
     digitalWrite(BLUE_LED_PIN,LOW);
     delay(1000);
   }
 
   else if(airQuality >= 50){
     digitalWrite(RED_LED_PIN,LOW);
-    digitalWrite(GREEN_LED_PIN,HIGH);
+    analogWrite(GREEN_LED_PIN,255);
     digitalWrite(BLUE_LED_PIN,LOW);
   }
 }
