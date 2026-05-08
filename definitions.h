@@ -12,10 +12,11 @@
 
 #define DISPLAY_INTERVAL 10000
 #define LOGGING_INTERVAL 1000
-extern unsigned long int displayLastMillis = 10000;
-extern unsigned long int logLastMillis = 0;
 
-#define LOGGING 1
+#define ALERT_CRITICAL_INTERVAL 500
+#define ALERT_WARN_INTERVAL 1000
+
+#define LOGGING
 
 
 //Custom Boot Splash Images
