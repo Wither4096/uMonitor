@@ -1,20 +1,25 @@
 #include "definitions.h"
 #include "SensorManager.h"
 #include "SensorReadings.h"
-#include "Logging.h"
+#include "SerialLogging.h"
 
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
 
-//SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
-//SensorReadings readings;
+SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
+SensorReadings readings;
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 Adafruit_SSD1306 oled(SCREEN_WIDTH,SCREEN_HEIGHT,&Wire);
+unsigned long int displayPrevMillis = 10000;
 
+unsigned long int alertWarnPrevMillis = 0;
+unsigned long int alertCriticalPrevMillis = 0;
+bool alertWarnOn = false;
+bool alertCriticalOn = false;
 
 void setup() {
   Serial.begin(9600);
@@ -44,76 +49,102 @@ void setup() {
 }
 
 void loop() {
-  //manager.updateReadings(readings);
-  SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
-  SensorReadings readings = manager.update();
+  unsigned long int currentMillis = millis();
 
-  alertAir(readings.getAirQuality(), readings.getAverageTemperature());
+  manager.updateReadings(readings);
+  //SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
+  //SensorReadings readings = manager.update();
 
-  renderDisplay(readings);
+  alertAir(readings.getAirQuality(), currentMillis);
+
+  renderDisplay(readings, currentMillis);
 
   #ifdef LOGGING
-  serialLogDataPoints(readings);
+  serialLogDataPoints(readings, currentMillis);
   #endif
 }
 
-void alertAir(int airQuality, int temperature){
-
+void alertAir(int airQuality, unsigned long int currentMillis){
   if(airQuality <= 45){
-    tone(BUZZER_PIN,880);
-    digitalWrite(RED_LED_PIN,HIGH);
-    analogWrite(GREEN_LED_PIN,0);
-    digitalWrite(BLUE_LED_PIN,LOW);
+    if(!alertCriticalOn){
+      if(currentMillis - alertCriticalPrevMillis >= ALERT_CRITICAL_INTERVAL){
+        //Reset State
+        alertWarnOn = false;
+        alertWarnPrevMillis = currentMillis;
+        noTone(BUZZER_PIN);
+        digitalWrite(RED_LED_PIN, LOW);
+        analogWrite(GREEN_LED_PIN, 0);
+        digitalWrite(BLUE_LED_PIN, LOW);
 
-    delay(500);
-    noTone(BUZZER_PIN);
-    digitalWrite(RED_LED_PIN,LOW);
-    analogWrite(GREEN_LED_PIN,0);
-    digitalWrite(BLUE_LED_PIN,LOW);
-    delay(500);
+        //Set Critical State
+        alertCriticalOn = true;
+        alertCriticalPrevMillis = currentMillis;
+
+        tone(BUZZER_PIN,880);
+        digitalWrite(RED_LED_PIN,HIGH);
+        analogWrite(GREEN_LED_PIN,0);
+        digitalWrite(BLUE_LED_PIN,LOW);
+      }
+    }
+    else{
+      if(currentMillis - alertCriticalPrevMillis >= ALERT_CRITICAL_INTERVAL){
+        alertCriticalOn = false;
+        alertCriticalPrevMillis = currentMillis;
+        
+        noTone(BUZZER_PIN);
+        digitalWrite(RED_LED_PIN,LOW);
+        analogWrite(GREEN_LED_PIN,0);
+        digitalWrite(BLUE_LED_PIN,LOW);
+      }
+    }
   }
   
-  else if(airQuality <= 59){
-    tone(BUZZER_PIN,440);
-    digitalWrite(RED_LED_PIN,HIGH);
-    analogWrite(GREEN_LED_PIN,32);
-    digitalWrite(BLUE_LED_PIN,LOW);
+  else if(airQuality <= 59){    
+    if(!alertWarnOn){
+      if(currentMillis - alertWarnPrevMillis >= ALERT_WARN_INTERVAL){
+        //Reset State
+        alertCriticalOn = false;
+        alertCriticalPrevMillis = currentMillis;
+        noTone(BUZZER_PIN);
+        digitalWrite(RED_LED_PIN, LOW);
+        analogWrite(GREEN_LED_PIN, 0);
+        digitalWrite(BLUE_LED_PIN, LOW);
+        
+        //Set Warn State
+        alertWarnOn = true;
+        alertWarnPrevMillis = currentMillis;
 
-    delay(1000);
-    noTone(BUZZER_PIN);
-    digitalWrite(RED_LED_PIN,LOW);
-    analogWrite(GREEN_LED_PIN,0);
-    digitalWrite(BLUE_LED_PIN,LOW);
-    delay(1000);
+        tone(BUZZER_PIN,440);
+        digitalWrite(RED_LED_PIN,HIGH);
+        analogWrite(GREEN_LED_PIN,32);
+        digitalWrite(BLUE_LED_PIN,LOW);
+      }
+    }
+
+    else{
+      if(currentMillis - alertWarnPrevMillis >= ALERT_WARN_INTERVAL){
+        alertWarnOn = false;
+        alertWarnPrevMillis = currentMillis;
+
+        noTone(BUZZER_PIN);
+        digitalWrite(RED_LED_PIN,LOW);
+        analogWrite(GREEN_LED_PIN,0);
+        digitalWrite(BLUE_LED_PIN,LOW);
+      }
+    }
   }
 
   else {
-  //  if(temperature >= 26){ // Warm Condition
-  //    digitalWrite(RED_LED_PIN,HIGH);
-  //    analogWrite(GREEN_LED_PIN,48);
-  //    digitalWrite(BLUE_LED_PIN,LOW);
-  //  }
-  //  else if(temperature <= 20){ // Cool Condition
-  //    digitalWrite(RED_LED_PIN,LOW);
-  //    analogWrite(GREEN_LED_PIN,96);
-  //    digitalWrite(BLUE_LED_PIN,HIGH);
-  //  }
-  //  else{ // Nominal Condition
-  //    digitalWrite(RED_LED_PIN,LOW);
-  //    analogWrite(GREEN_LED_PIN,255);
-  //    digitalWrite(BLUE_LED_PIN,LOW);
-  //  }
-  digitalWrite(RED_LED_PIN,LOW);
-  analogWrite(GREEN_LED_PIN,255);
-  digitalWrite(BLUE_LED_PIN,LOW);
+    noTone(BUZZER_PIN);
+    digitalWrite(RED_LED_PIN,LOW);
+    analogWrite(GREEN_LED_PIN,255);
+    digitalWrite(BLUE_LED_PIN,LOW);
   }
 }
 
-void renderDisplay(SensorReadings& readings){
-
-  unsigned long int displayCurrentMillis = millis();
-  if(displayCurrentMillis - displayLastMillis >= DISPLAY_INTERVAL){
-    displayLastMillis = displayCurrentMillis;
+void renderDisplay(SensorReadings& readings, unsigned long int currentMillis){
+  if(currentMillis - displayPrevMillis >= DISPLAY_INTERVAL){
+    displayPrevMillis = currentMillis;
 
     oled.setCursor(0, 0);
 
