@@ -1,12 +1,12 @@
 #pragma once
-#define MQ_PIN 34
 #define DHT_PIN 18
-#define LM35_PIN 13
-#define LIGHT_RES_PIN 14
+#define MQ_PIN 34
+#define LM35_PIN 4
+#define LIGHT_RES_PIN 33
 
 #define RED_LED_PIN 12
 #define GREEN_LED_PIN 27
-#define BLUE_LED_PIN 33
+#define BLUE_LED_PIN 36
 
 #define BUZZER_PIN 15
 
