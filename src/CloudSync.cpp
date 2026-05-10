@@ -19,7 +19,7 @@ void CloudSync::syncData(SensorReadings& readings, unsigned long int currentMill
         String payload;
         serializeJson(doc, payload);
 
-        sendPOSTRequest("/telemetry", payload);
+        sendPOSTRequest_("/telemetry.json", payload);
     }
 }
 
@@ -51,6 +51,6 @@ void CloudSync::sendAlert(const char* type, const char* message) {
     doc["message"] = message;
     String payload;
     serializeJson(doc, payload);
-    sendPOSTRequest("/alerts", payload);
+    sendPOSTRequest_("/alerts.json", payload);
 }
 
