@@ -2,6 +2,10 @@
 #include "SensorManager.h"
 #include "SensorReadings.h"
 #include "SerialLogging.h"
+#include "WiFiManager.h"
+#include "CloudSync.h"
+
+#include "wificonf.h"
 
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -12,6 +16,7 @@ unsigned long int displayPrevMillis = 10000;
 
 SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 SensorReadings readings;
+WiFiManager wifiManager(WIFI_SSID,WIFI_PASSWORD);
 
 unsigned long int alertWarnPrevMillis = 0;
 unsigned long int alertCriticalPrevMillis = 0;
@@ -40,7 +45,8 @@ void setup()
   oled.setTextWrap(false);
   oled.drawBitmap(0,0,BOOTBMP64,SCREEN_WIDTH,SCREEN_HEIGHT,WHITE);
   oled.display();
-
+  
+  wifiManager.begin();
   delay(2500);
 
   oled.clearDisplay();
