@@ -5,7 +5,7 @@
 #include "WiFiManager.h"
 #include "CloudSync.h"
 
-#include "wificonf.h"
+#include "network_config.h"
 
 #include <Wire.h>
 #include <Adafruit_GFX.h>
