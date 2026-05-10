@@ -10,6 +10,7 @@ class CloudSync
     private:
     const char* firestoreURL_;
     void sendPOSTRequest(String endpoint, String jsonPayload);
+    unsigned long int uploadLastMillis_ = 0;
     public:
     CloudSync(const char* firestoreURL);
     void syncData(SensorReadings &readings);

@@ -5,19 +5,22 @@ CloudSync::CloudSync(const char* firestoreURL)
 firestoreURL_(firestoreURL)
 {}
 
-void CloudSync::syncData(SensorReadings& readings)
+void CloudSync::syncData(SensorReadings& readings, unsigned long int currentMillis)
 {
-    StaticJsonDocument<512> doc;
+    if(currentMillis - uploadLastMillis_ >= UPLOAD_INTERVAL){
+        uploadLastMillis_ = currentMillis;
+        StaticJsonDocument<512> doc;
 
-    doc["temperature"] = readings.getAverageTemperature();
-    doc["humidity"] = readings.getHumidity();
-    doc["aqi"] = readings.getAirQuality();
-    doc["light"] = readings.getLight();
+        doc["temperature"] = readings.getAverageTemperature();
+        doc["humidity"] = readings.getHumidity();
+        doc["aqi"] = readings.getAirQuality();
+        doc["light"] = readings.getLight();
 
-    String payload;
-    serializeJson(doc, payload);
+        String payload;
+        serializeJson(doc, payload);
 
-    sendPOSTRequest("/telemetry", payload);
+        sendPOSTRequest("/telemetry", payload);
+    }
 }
 
 void CloudSync::sendPOSTRequest(String endpoint, String jsonPayload) {

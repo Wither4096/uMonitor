@@ -17,6 +17,7 @@ unsigned long int displayPrevMillis = 10000;
 SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 SensorReadings readings;
 WiFiManager wifiManager(WIFI_SSID,WIFI_PASSWORD);
+CloudSync firebaseSync(FIREBASE_URL);
 
 unsigned long int alertWarnPrevMillis = 0;
 unsigned long int alertCriticalPrevMillis = 0;
