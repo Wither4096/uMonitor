@@ -3,7 +3,6 @@
 #include "SensorManager.h"
 #include "SensorReadings.h"
 #include "SerialLogging.h"
-#include "AlertManager.h"
 
 #include "WiFiManager.h"
 #include "CloudSync.h"
@@ -70,7 +69,7 @@ void loop()
 
   renderDisplay(readings, currentMillis);
 
-  firebaseSync.syncData(readings, currentMillis);
+  firebaseSync.syncData(readings,time(nullptr), currentMillis);
 
   #ifdef LOGGING
   serialLogDataPoints(readings, currentMillis);
@@ -98,7 +97,7 @@ void handleAlerts(float airQuality, unsigned long int currentMillis)
         digitalWrite(RED_LED_PIN,HIGH);
         analogWrite(GREEN_LED_PIN,0);
         digitalWrite(BLUE_LED_PIN,LOW);
-        firebaseSync.sendAlert("critical","Dangerous Air Quality");
+        firebaseSync.sendAlert("critical","Dangerous Air Quality",time(nullptr));
       }
     }
     else{
@@ -133,7 +132,7 @@ void handleAlerts(float airQuality, unsigned long int currentMillis)
         digitalWrite(RED_LED_PIN,HIGH);
         analogWrite(GREEN_LED_PIN,32);
         digitalWrite(BLUE_LED_PIN,LOW);
-        firebaseSync.sendAlert("warn","Low Air Quality");
+        firebaseSync.sendAlert("warn","Low Air Quality",time(nullptr));
       }
     }
 

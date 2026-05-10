@@ -15,6 +15,6 @@ class CloudSync
     public:
     CloudSync(const char* firestoreURL);
 
-    void syncData(SensorReadings &readings, unsigned long int currentMillis);
-    void sendAlert(const char* type, const char* message);
+    void syncData(SensorReadings &readings, long long int timestamp, unsigned long int currentMillis);
+    void sendAlert(const char* type, const char* message, long long int timestamp);
 };

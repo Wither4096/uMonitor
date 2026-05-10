@@ -5,7 +5,7 @@ CloudSync::CloudSync(const char* firestoreURL)
 firestoreURL_(firestoreURL)
 {}
 
-void CloudSync::syncData(SensorReadings& readings, unsigned long int currentMillis)
+void CloudSync::syncData(SensorReadings& readings, long long int timestamp, unsigned long int currentMillis)
 {
     if(currentMillis - uploadLastMillis_ >= UPLOAD_INTERVAL){
         uploadLastMillis_ = currentMillis;
@@ -15,6 +15,7 @@ void CloudSync::syncData(SensorReadings& readings, unsigned long int currentMill
         doc["humidity"] = readings.getHumidity();
         doc["aqi"] = readings.getAirQuality();
         doc["light"] = readings.getLight();
+        doc["timestamp"] = (long)timestamp;
 
         String payload;
         serializeJson(doc, payload);
@@ -45,10 +46,11 @@ void CloudSync::sendPOSTRequest_(String endpoint, String jsonPayload) {
     http.end();
 }
 
-void CloudSync::sendAlert(const char* type, const char* message) {
+void CloudSync::sendAlert(const char* type, const char* message, long long int timestamp) {
     StaticJsonDocument<256> doc;
     doc["type"] = type;
     doc["message"] = message;
+    doc["timestamp"] = (long)timestamp;
     String payload;
     serializeJson(doc, payload);
     sendPOSTRequest_("/alerts.json", payload);
