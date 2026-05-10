@@ -23,7 +23,7 @@ void CloudSync::syncData(SensorReadings& readings, unsigned long int currentMill
     }
 }
 
-void CloudSync::sendPOSTRequest(String endpoint, String jsonPayload) {
+void CloudSync::sendPOSTRequest_(String endpoint, String jsonPayload) {
     HTTPClient http;
 
     String fullURL = String(firestoreURL_) + endpoint;

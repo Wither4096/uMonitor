@@ -16,6 +16,7 @@ unsigned long int displayPrevMillis = 10000;
 
 SensorManager manager(DHT_PIN,DHT21,LM35_PIN,MQ_PIN,LIGHT_RES_PIN);
 SensorReadings readings;
+
 WiFiManager wifiManager(WIFI_SSID,WIFI_PASSWORD);
 CloudSync firebaseSync(FIREBASE_URL);
 
@@ -65,6 +66,8 @@ void loop()
 
   renderDisplay(readings, currentMillis);
 
+  firebaseSync.syncData(readings, currentMillis);
+
   #ifdef LOGGING
   serialLogDataPoints(readings, currentMillis);
   #endif
@@ -91,6 +94,7 @@ void handleAlerts(float airQuality, unsigned long int currentMillis)
         digitalWrite(RED_LED_PIN,HIGH);
         analogWrite(GREEN_LED_PIN,0);
         digitalWrite(BLUE_LED_PIN,LOW);
+        firebaseSync.sendAlert("critical","Dangerous Air Quality");
       }
     }
     else{
@@ -125,6 +129,7 @@ void handleAlerts(float airQuality, unsigned long int currentMillis)
         digitalWrite(RED_LED_PIN,HIGH);
         analogWrite(GREEN_LED_PIN,32);
         digitalWrite(BLUE_LED_PIN,LOW);
+        firebaseSync.sendAlert("warn","Low Air Quality");
       }
     }
 
