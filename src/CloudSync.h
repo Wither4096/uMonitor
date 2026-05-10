@@ -2,6 +2,7 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
+#include "config.h"
 #include "SensorReadings.h"
 
 class CloudSync
