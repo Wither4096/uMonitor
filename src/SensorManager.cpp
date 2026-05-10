@@ -15,8 +15,7 @@ float SensorManager::readLM35_()
   double weightedValue = 0;
   for(int i = 0; i < SAMPLES ; i++){
     float raw = analogRead(lm35Pin_);
-    float voltage = (raw / ADC_MAX) * 5.0;
-    weightedValue += voltage * 16.0; // Calibration based on testing @ room temperature
+    weightedValue += raw / ADC_MAX * 100.0;
   }
   return weightedValue / SAMPLES;
 }
