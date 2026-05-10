@@ -5,7 +5,8 @@
 #define SAMPLES 512
 #define ADC_MAX 4095.0
 
-class SensorManager{
+class SensorManager
+{
   private:
 
   DHT dht_;

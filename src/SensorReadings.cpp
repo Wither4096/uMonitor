@@ -11,7 +11,8 @@ SensorReadings::SensorReadings(float humidity, float temperatureDHT, float tempe
 humidity_(humidity), temperatureDHT_(temperatureDHT), temperatureLM35_(temperatureLM35), airQuality_(airQuality), light_(light)
 {};
 
-void SensorReadings::updateValues(float humidity, float temperatureDHT, float temperatureLM35, float airQuality, float light){
+void SensorReadings::updateValues(float humidity, float temperatureDHT, float temperatureLM35, float airQuality, float light)
+{
   humidity_ = humidity;
   temperatureDHT_ = temperatureDHT;
   temperatureLM35_ = temperatureLM35;
@@ -26,8 +27,8 @@ float SensorReadings::getTemperatureDHT()const{ return temperatureDHT_; }
 
 float SensorReadings::getTemperatureLM35()const{ return temperatureLM35_; }
 
-float SensorReadings::getAverageTemperature()const{
-
+float SensorReadings::getAverageTemperature()const
+{
   bool dhtValid =! isnan(temperatureDHT_);
   bool lm35Valid =! (temperatureLM35_ <= -10 || temperatureLM35_ >= 80);
   float temperatureDifference = abs(temperatureDHT_ - temperatureLM35_);

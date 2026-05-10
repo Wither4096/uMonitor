@@ -2,7 +2,8 @@
 
 unsigned long int logPrevMillis = 0;
 
-void serialLogDataPoints(SensorReadings &readings, unsigned long int currentMillis){
+void serialLogDataPoints(SensorReadings &readings, unsigned long int currentMillis)
+{
   if(currentMillis - logPrevMillis >= LOGGING_INTERVAL){
 
     logPrevMillis = currentMillis;

@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h> //Required for NaN checking
-class SensorReadings{
+class SensorReadings
+{
   private:
   float humidity_;
   float temperatureDHT_;

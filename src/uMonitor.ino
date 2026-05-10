@@ -18,7 +18,8 @@ unsigned long int alertCriticalPrevMillis = 0;
 bool alertWarnOn = false;
 bool alertCriticalOn = false;
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
   
   pinMode(MQ_PIN,INPUT);
@@ -45,7 +46,8 @@ void setup() {
   oled.clearDisplay();
 }
 
-void loop() {
+void loop()
+{
   unsigned long int currentMillis = millis();
 
   manager.updateReadings(readings);
@@ -61,7 +63,8 @@ void loop() {
   #endif
 }
 
-void handleAlerts(float airQuality, unsigned long int currentMillis){
+void handleAlerts(float airQuality, unsigned long int currentMillis)
+{
   if(airQuality <= 45){
     if(!alertCriticalOn){
       if(currentMillis - alertCriticalPrevMillis >= ALERT_CRITICAL_INTERVAL){
@@ -139,7 +142,8 @@ void handleAlerts(float airQuality, unsigned long int currentMillis){
   }
 }
 
-void renderDisplay(SensorReadings& readings, unsigned long int currentMillis){
+void renderDisplay(SensorReadings& readings, unsigned long int currentMillis)
+{
   if(currentMillis - displayPrevMillis >= DISPLAY_INTERVAL){
     displayPrevMillis = currentMillis;
 

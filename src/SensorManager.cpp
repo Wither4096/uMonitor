@@ -10,7 +10,8 @@ lightPin_(lightPin)
   dht_.begin();
 };
 
-float SensorManager::readLM35_(){
+float SensorManager::readLM35_()
+{
   double weightedValue = 0;
   for(int i = 0; i < SAMPLES ; i++){
     float raw = analogRead(lm35Pin_);
@@ -20,7 +21,8 @@ float SensorManager::readLM35_(){
   return weightedValue / SAMPLES;
 }
 
-float SensorManager::readMQ135_(){
+float SensorManager::readMQ135_()
+{
   double mappedValue = 0;
   for(int i = 0; i < SAMPLES ; i++){
     float raw = analogRead(mqPin_);
@@ -30,7 +32,8 @@ float SensorManager::readMQ135_(){
   return 100.0 - mappedValue;
 }
 
-float SensorManager::readLight_(){
+float SensorManager::readLight_()
+{
   double mappedValue = 0;
   for(int i = 0; i < SAMPLES ; i++){
     float raw = analogRead(lightPin_);
@@ -43,19 +46,22 @@ float SensorManager::readLight_(){
 // DHT is a digital sensor, two samples is enough
 // Possible skip using them and take the the readings directly
 
-float SensorManager::dhtAverageHumidity_(){
+float SensorManager::dhtAverageHumidity_()
+{
   double averageHumidity = 0;
   for(int i = 0; i < 2 ; i++) averageHumidity += dht_.readHumidity();
   return averageHumidity / 2;
 }
 
-float SensorManager::dhtAverageTemperature_(){
+float SensorManager::dhtAverageTemperature_()
+{
   double averageTemperature = 0;
   for(int i = 0; i < 2 ; i++) averageTemperature += dht_.readTemperature();
   return averageTemperature / 2;
 }
 
-void SensorManager::updateReadings(SensorReadings &readings){
+void SensorManager::updateReadings(SensorReadings &readings)
+{
   float humidity = dht_.readHumidity(); //dhtAverageHumidity_();
   float temperatureDHT = dht_.readTemperature(); //dhtAverageTemperature_();
   float temperatureLM35 = readLM35_();
@@ -63,7 +69,9 @@ void SensorManager::updateReadings(SensorReadings &readings){
   float light = readLight_();
   readings.updateValues(humidity,temperatureDHT,temperatureLM35,airQuality,light);
 }
-SensorReadings SensorManager::update(){
+
+SensorReadings SensorManager::update()
+{
   float humidity = dht_.readHumidity(); //dhtAverageHumidity_();
   float temperatureDHT = dht_.readTemperature(); //dhtAverageTemperature_();
   float temperatureLM35 = readLM35_();
